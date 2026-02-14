@@ -9,3 +9,4 @@ backend/dist
 # Env variables
 frontend/.env   
 backend/.env
+.env

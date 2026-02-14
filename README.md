@@ -36,4 +36,24 @@ Go to the root path of the project
 cd backend && yarn install
 ```
 # Add Docker commands for initialization
-# Add usefull information about the migrations generation and how to apply them
+For the database Volume store, in the same path of the project, create a "Volumes" folder, in order for the database Volumes be stored there.
+
+Initialize only database, run this command in the root of the project
+```sh
+docker-compose up -d db
+```
+
+# Add new migration based on changes made on entity models
+```sh
+yarn migration:generate -- <path-to-store-migration-file>
+```
+
+# Run migration
+```sh
+yarn migration:run
+```
+
+# Revert migration
+```sh
+yarn migration:revert
+```
