@@ -8,6 +8,28 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     ports:
-      - "${DB_PORT}:5432"
+      - "${DB_PORT:-5532}:5432"
     volumes:
       - ../Volumes:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: todo_api
+    restart: always
+    ports:
+      - "${PORT:-3003}:3003"
+    environment:
+      NODE_ENV: development
+      PORT: ${PORT:-3003}
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - db
