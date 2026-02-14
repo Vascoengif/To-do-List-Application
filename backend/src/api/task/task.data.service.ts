@@ -40,4 +40,8 @@ export class TaskRepository {
     const savedEntity = await this.repository.save(entity)
     return savedEntity
   }
+
+  public async deleteById(id: string): Promise<void> {
+    await this.repository.softDelete(id)
+  }
 }

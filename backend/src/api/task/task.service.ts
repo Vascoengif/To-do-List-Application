@@ -36,4 +36,8 @@ export class TaskService {
     const taskDTO = this.taskMapper.toDto(savedTaskEntity)
     return taskDTO
   }
+
+  public async deleteTask(id: string): Promise<void> {
+    await this.taskRepository.deleteById(id)
+  }
 }
