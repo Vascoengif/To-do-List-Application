@@ -35,12 +35,26 @@ Go to the root path of the project
 ```sh
 cd backend && yarn install
 ```
-# Add Docker commands for initialization
+
+# Database tip
 For the database Volume store, in the same path of the project, create a "Volumes" folder, in order for the database Volumes be stored there.
 
-Initialize only database, run this command in the root of the project
+# Run the app
+The following commands to launch the app are supposed to be executed in the root of the project
+
+Initialize the entire app at the same time, with only one command:
+```sh
+docker-compose up -d
+```
+
+Initialize only database:
 ```sh
 docker-compose up -d db
+```
+
+Initialize backend
+```sh
+cd backend && yarn start:dev
 ```
 
 # Add new migration based on changes made on entity models
