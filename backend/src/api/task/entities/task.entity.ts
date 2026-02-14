@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, Generated, PrimaryColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, Generated, PrimaryColumn, UpdateDateColumn } from "typeorm"
 
 @Entity('task')
 export class TaskEntity {
@@ -12,9 +12,15 @@ export class TaskEntity {
   @UpdateDateColumn({ name: 'updatedAt' })
   updatedAt?: Date
 
+  @DeleteDateColumn({ name: 'deletedAt' })
+  deletedAt?: Date
+
   @Column({ name: 'title' })
   title: string
 
   @Column({ name: 'description', nullable: true })
-  description: string
+  description?: string
+
+  @Column({ type: 'boolean', default: false, name: 'completed'})
+  completed?: boolean
 }
