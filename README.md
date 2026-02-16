@@ -54,7 +54,12 @@ docker-compose up -d db
 
 Initialize backend
 ```sh
-cd backend && yarn start:dev
+cd backend && yarn backend:run
+```
+
+Initialize frontend
+```sh
+cd frontend && yarn frontend:run
 ```
 
 # Add new migration based on changes made on entity models
