@@ -1,4 +1,10 @@
-import { IsString, IsBoolean, IsOptional, IsUUID, IsDate } from 'class-validator';
+import { IsString, IsBoolean, IsOptional, IsUUID, IsDate, IsEnum } from 'class-validator';
+
+export enum TaskPriority {
+  HIGH = 'high',
+  MEDIUM = 'medium',
+  LOW = 'low',
+}
 
 export class TaskDTO {
   @IsUUID()
@@ -14,6 +20,9 @@ export class TaskDTO {
   @IsBoolean()
   completed?: boolean;
 
+  @IsEnum(TaskPriority)
+  priority: TaskPriority;
+
   @IsDate()
   createdAt?: Date;
 
@@ -28,6 +37,10 @@ export class CreateTaskDTO {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @IsEnum(TaskPriority)
+  @IsOptional()
+  priority?: TaskPriority = TaskPriority.LOW;
 }
 
 export class UpdateTaskDTO {
@@ -42,4 +55,8 @@ export class UpdateTaskDTO {
   @IsBoolean()
   @IsOptional()
   completed?: boolean;
+
+  @IsEnum(TaskPriority)
+  @IsOptional()
+  priority?: TaskPriority = TaskPriority.LOW;
 }

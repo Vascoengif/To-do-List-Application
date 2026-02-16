@@ -23,4 +23,7 @@ export class TaskEntity {
 
   @Column({ type: 'boolean', default: false, name: 'completed'})
   completed?: boolean
+
+  @Column({ default: 'low', name: 'priority' })
+  priority: string
 }

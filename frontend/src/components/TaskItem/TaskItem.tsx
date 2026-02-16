@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Task } from '../../types/task';
+import { Task, TaskPriority } from '../../types/task';
 import { taskApi } from '../../services/api';
 import './TaskItem.css';
 import { useTranslation } from '../../hooks/useTranslation';
@@ -16,11 +16,13 @@ export function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description || '');
+  const [priority, setPriority] = useState<TaskPriority>(task.priority);
 
   const handleToggleComplete = async () => {
     try {
       await taskApi.updateTask(task.id, {
         completed: !task.completed,
+        priority,
       });
       onUpdate();
     } catch (error) {
@@ -33,6 +35,7 @@ export function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
       await taskApi.updateTask(task.id, {
         title,
         description: description || undefined,
+        priority,
       });
       setIsEditing(false);
       onUpdate();
@@ -44,6 +47,7 @@ export function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
   const handleCancel = () => {
     setTitle(task.title);
     setDescription(task.description || '');
+    setPriority(task.priority);
     setIsEditing(false);
   };
 
@@ -65,15 +69,20 @@ export function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
   const fullDescription = (task: Task): React.ReactNode => {
     return (
       <span className="task-full-description">
-        {task.description && <span>{task.description} </span>} 
-        {task.createdAt && <span> | {t('tasks.createdAt', { date: formatDate(task.createdAt) })}</span>} 
-        {task.updatedAt && <span> | {t('tasks.updatedAt', { date: formatDate(task.updatedAt) })}</span>}
+        {task.description && <span>{task.description} | </span> } 
+        {task.createdAt && <span> {t('tasks.createdAt', { date: formatDate(task.createdAt) })} | </span>} 
+        {task.updatedAt && <span> {t('tasks.updatedAt', { date: formatDate(task.updatedAt) })}</span>}
       </span>
     );
   }
 
+  const getPriorityClass = () => {
+    const currentPriority = isEditing ? priority : task.priority;
+    return `priority-${currentPriority}`;
+  };
+
   return (
-    <div className={`task-item ${task.completed ? 'completed' : ''} ${isEditing ? 'editing' : ''}`}>
+    <div className={`task-item ${task.completed ? 'completed' : ''} ${isEditing ? 'editing' : ''} ${getPriorityClass()}`}>
       <div className="task-content">
         {!isEditing && (
           <input
@@ -101,6 +110,15 @@ export function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
                 placeholder={t('forms.taskDescription')}
                 rows={3}
               />
+              <select
+                value={priority}
+                onChange={(e) => setPriority(e.target.value as TaskPriority)}
+                className="task-edit-select"
+              >
+                <option value={TaskPriority.HIGH}>{t('forms.priorityHigh')}</option>
+                <option value={TaskPriority.MEDIUM}>{t('forms.priorityMedium')}</option>
+                <option value={TaskPriority.LOW}>{t('forms.priorityLow')}</option>
+              </select>
             </>
           ) : (
             <>
@@ -114,14 +132,14 @@ export function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
       </div>
       <div className="task-actions">
         {isEditing ? (
-          <>
+          <div className="task-edit-actions">
             <button onClick={handleSave} className="btn btn-save">
               {t('buttons.save')}
             </button>
             <button onClick={handleCancel} className="btn btn-cancel">
               {t('buttons.cancel')}
             </button>
-          </>
+          </div>
         ) : (
           <>
             <button onClick={() => setIsEditing(true)} className="btn btn-edit">

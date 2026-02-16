@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { TaskEntity } from "./entities/task.entity";
-import { CreateTaskDTO, TaskDTO, UpdateTaskDTO } from "./task.dto";
+import { CreateTaskDTO, TaskDTO, UpdateTaskDTO, TaskPriority } from "./task.dto";
 import { v4 as uuidv4 } from 'uuid'
 
 @Injectable()
@@ -11,6 +11,7 @@ export class TaskMapper {
       title: entity.title,
       description: entity.description,
       completed: entity.completed,
+      priority: entity.priority as TaskPriority,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt
     };
@@ -20,7 +21,8 @@ export class TaskMapper {
     return {
       id: uuidv4(),
       title: dto.title,
-      description: dto.description
+      description: dto.description,
+      priority: dto.priority ?? TaskPriority.LOW
     };
   }
 
@@ -29,7 +31,8 @@ export class TaskMapper {
       ...entity,
       title: dto.title ?? entity.title,
       description: dto.description ?? entity.description,
-      completed: dto.completed ?? entity.completed
+      completed: dto.completed ?? entity.completed,
+      priority: dto.priority ?? entity.priority
     };
   }
 }

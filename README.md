@@ -58,6 +58,11 @@ cd backend && yarn start:dev
 ```
 
 # Add new migration based on changes made on entity models
+Important: this commands should be executed inside backend path
+```sh
+cd backend
+```
+
 ```sh
 yarn migration:generate -- <path-to-store-migration-file>
 ```

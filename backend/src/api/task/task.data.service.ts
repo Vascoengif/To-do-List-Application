@@ -17,6 +17,16 @@ export class TaskRepository {
   public async findAll(): Promise<TaskEntity[]> {
     const entities = await this.repository.createQueryBuilder(this.tableAlias)
       .where(`${this.tableAlias}.deletedAt is null`)
+      .orderBy(`${this.tableAlias}.completed`, 'ASC')
+      .addOrderBy(
+        `CASE 
+          WHEN ${this.tableAlias}.priority = 'high' THEN 1 
+          WHEN ${this.tableAlias}.priority = 'medium' THEN 2 
+          WHEN ${this.tableAlias}.priority = 'low' THEN 3 
+          ELSE 4 
+        END`,
+        'ASC'
+      )
       .getMany();
 
     return entities;

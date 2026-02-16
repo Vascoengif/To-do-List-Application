@@ -26,9 +26,14 @@ export const en = {
     updatedAt: 'updated at: {{date}}',
   },
   forms: {
-    taskTitle: 'Task title',
-    taskTitleRequired: 'Task title *',
-    taskDescription: 'Task description (optional)',
+    taskTitle: 'Task title *',
+    taskTitleRequired: 'Type your task title here',
+    taskDescription: 'Task description *',
+    taskDescriptionDescription: 'Type your task description here',
+    priority: 'Priority *',
+    priorityHigh: 'High',
+    priorityMedium: 'Medium',
+    priorityLow: 'Low',
   },
 };
 
