@@ -15,7 +15,7 @@
 }
 
 .task-item.priority-high {
-  background: #fee;
+  background: rgb(241, 186, 186);
   border-color: #fcc;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .task-item.priority-low {
-  background: #e8f5e9;
+  background: #c9f1cd;
   border-color: #c8e6c9;
 }
 

@@ -28,7 +28,7 @@ export const en = {
   forms: {
     taskTitle: 'Task title *',
     taskTitleRequired: 'Type your task title here',
-    taskDescription: 'Task description *',
+    taskDescription: 'Task description',
     taskDescriptionDescription: 'Type your task description here',
     priority: 'Priority *',
     priorityHigh: 'High',

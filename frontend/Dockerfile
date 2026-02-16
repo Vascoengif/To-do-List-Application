@@ -29,8 +29,8 @@ RUN yarn install --frozen-lockfile
 # Copy source code
 COPY . .
 
-# Expose port
-EXPOSE 3003
+# Expose port (Vite default port)
+EXPOSE 5173
 
 # Start the development server
-CMD ["yarn", "start:dev"]
+CMD ["yarn", "frontend:run"]

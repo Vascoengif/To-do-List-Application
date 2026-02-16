@@ -107,7 +107,7 @@ export function TaskItem({ task, onUpdate, onDelete }: TaskItemProps) {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="task-edit-textarea"
-                placeholder={t('forms.taskDescription')}
+                placeholder={t('forms.taskDescriptionDescription')}
                 rows={3}
               />
               <select

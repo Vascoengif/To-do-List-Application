@@ -1,6 +1,8 @@
 import type { Task, CreateTaskDTO, UpdateTaskDTO } from '../types/task';
 
-const API_BASE_URL = 'http://localhost:3003/task';
+// API base URL
+// Uses Vite proxy in development (configured in vite.config.ts)
+const API_BASE_URL = '/api/task';
 
 export const taskApi = {
   getAllTasks: async (): Promise<Task[]> => {
