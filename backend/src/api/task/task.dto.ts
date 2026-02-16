@@ -1,4 +1,4 @@
-import { IsString, IsBoolean, IsOptional, IsUUID } from 'class-validator';
+import { IsString, IsBoolean, IsOptional, IsUUID, IsDate } from 'class-validator';
 
 export class TaskDTO {
   @IsUUID()
@@ -13,6 +13,12 @@ export class TaskDTO {
 
   @IsBoolean()
   completed?: boolean;
+
+  @IsDate()
+  createdAt?: Date;
+
+  @IsDate()
+  updatedAt?: Date;
 }
 
 export class CreateTaskDTO {

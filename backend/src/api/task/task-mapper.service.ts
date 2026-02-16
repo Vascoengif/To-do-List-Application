@@ -10,7 +10,9 @@ export class TaskMapper {
       id: entity.id,
       title: entity.title,
       description: entity.description,
-      completed: entity.completed
+      completed: entity.completed,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt
     };
   }
 

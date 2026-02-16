@@ -1,35 +1,78 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import { Task } from './types/task';
+import { taskApi } from './services/api';
+import { AddTaskForm } from './components/AddTaskForm/AddTaskForm';
+import './App.css';
+import { TaskItem } from './components/TaskItem/TaskItem';
+import { useTranslation } from './hooks/useTranslation';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { t } = useTranslation();
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchTasks = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const fetchedTasks = await taskApi.getAllTasks();
+      setTasks(fetchedTasks);
+    } catch (err) {
+      setError(t('errors.failedToLoadTasks'));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const updateTasksList = () => {
+    fetchTasks();
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app">
+      <div className="container">
+        <header className="app-header">
+          <h1>{t('app.title')}</h1>
+          <p className="subtitle">{t('app.subtitle')}</p>
+        </header>
+
+        <AddTaskForm onTaskAdded={updateTasksList} />
+
+        {error && (
+          <div className="error-message">
+            <p>{error}</p>
+            <button onClick={fetchTasks} className="btn btn-retry">
+              {t('buttons.retry')}
+            </button>
+          </div>
+        )}
+
+        {isLoading ? (
+          <div className="loading">{t('tasks.loading')}</div>
+        ) : tasks.length === 0 ? (
+          <div className="empty-state">
+            <p>{t('tasks.empty')}</p>
+          </div>
+        ) : (
+          <div className="tasks-list">
+            {tasks.map((task) => (
+              <TaskItem
+                key={task.id}
+                task={task}
+                onUpdate={updateTasksList}
+                onDelete={updateTasksList}
+              />
+            ))}
+          </div>
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
