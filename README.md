@@ -41,6 +41,7 @@ This application follows a **Monorepo architecture**, keeping all components in 
 
 Create a local folder on your machine to host the repo
 ```sh
+mkdir <folder-to-store-cloned-repo>
 ```
 
 Since this is a public repository, you can clone it directly without needing any credentials:
