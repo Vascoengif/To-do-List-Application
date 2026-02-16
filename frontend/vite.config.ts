@@ -4,6 +4,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
+    host: '0.0.0.0', // Listen on all network interfaces, this is important in order to be able to access the frontend from the host machine, if launched with docker-compose
+    port: 5173,
     // Proxy API requests to backend in development
     // This allows to use relative URLs in the frontend
     // This is mostly useful if in the future more apis feed this frontend application
